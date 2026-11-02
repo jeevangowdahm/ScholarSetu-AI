@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-import sqlite3, json, os
-from datetime import datetime
+import sqlite3, json, os, secrets
+from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(APP_DIR, "scholarsetu.db")
@@ -704,6 +705,35 @@ def init_db():
             UNIQUE(student_key, scheme_id)
         )""")
 
+        con.execute("""CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT NOT NULL UNIQUE,
+            full_name TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'student',
+            password_hash TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )""")
+
+        con.execute("""CREATE TABLE IF NOT EXISTS auth_audit_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT NOT NULL,
+            action TEXT NOT NULL,
+            ip_address TEXT,
+            timestamp TEXT NOT NULL
+        )""")
+
+        # Seed initial demo accounts if not existing
+        demo_student = con.execute("SELECT id FROM users WHERE email=?", ("student@scholarsetu.gov.in",)).fetchone()
+        if not demo_student:
+            con.execute(
+                "INSERT INTO users (email, full_name, role, password_hash, created_at) VALUES (?, ?, ?, ?, ?)",
+                ("student@scholarsetu.gov.in", "Jeevan Gowda (Student)", "student", generate_password_hash("Scholar@2026"), datetime.now().isoformat())
+            )
+            con.execute(
+                "INSERT INTO users (email, full_name, role, password_hash, created_at) VALUES (?, ?, ?, ?, ?)",
+                ("nodal@rnsit.ac.in", "Dr. Ramesh K. (Nodal Verification Officer)", "nodal_officer", generate_password_hash("Officer@2026"), datetime.now().isoformat())
+            )
+
 def get_all_schemes():
     global _SCHEMES_CACHE
     if _SCHEMES_CACHE is not None:
@@ -1153,6 +1183,137 @@ def api_unsave(scheme_id):
     with connect() as con:
         con.execute("DELETE FROM saved WHERE student_key=? AND scheme_id=?", (key, scheme_id))
     return jsonify({"ok": True, "message": "Scheme removed from shortlist."})
+
+# =========================================================================
+# Authentication & Security Subsystem (Citizen & Nodal Officer Login)
+# =========================================================================
+_FAILED_LOGINS = {}
+_SESSIONS = {}
+
+@app.post("/api/auth/login")
+def api_login():
+    """Secure citizen & nodal officer login with rate limiting & brute-force protection."""
+    client_ip = request.remote_addr or "127.0.0.1"
+    now = datetime.now()
+
+    if client_ip in _FAILED_LOGINS:
+        info = _FAILED_LOGINS[client_ip]
+        if info["blocked_until"] and info["blocked_until"] > now:
+            wait_sec = int((info["blocked_until"] - now).total_seconds())
+            return jsonify({"error": f"Too many failed login attempts. IP temporarily locked for safety. Retry in {wait_sec}s."}), 429
+
+    data = request.get_json(silent=True) or {}
+    email = str(data.get("email", "")).strip().lower()
+    password = str(data.get("password", "")).strip()
+
+    if not email or not password:
+        return jsonify({"error": "Please provide both email/OTR number and password."}), 400
+
+    with connect() as con:
+        user = con.execute("SELECT * FROM users WHERE email=?", (email,)).fetchone()
+
+        if not user or not check_password_hash(user["password_hash"], password):
+            if client_ip not in _FAILED_LOGINS:
+                _FAILED_LOGINS[client_ip] = {"count": 1, "blocked_until": None}
+            else:
+                _FAILED_LOGINS[client_ip]["count"] += 1
+                if _FAILED_LOGINS[client_ip]["count"] >= 5:
+                    _FAILED_LOGINS[client_ip]["blocked_until"] = now + timedelta(minutes=10)
+
+            con.execute(
+                "INSERT INTO auth_audit_logs (email, action, ip_address, timestamp) VALUES (?, ?, ?, ?)",
+                (email, "LOGIN_FAILED", client_ip, now.isoformat())
+            )
+            return jsonify({"error": "Invalid credentials. Please verify your email/OTR and password."}), 401
+
+        if client_ip in _FAILED_LOGINS:
+            del _FAILED_LOGINS[client_ip]
+
+        token = secrets.token_hex(32)
+        _SESSIONS[token] = {
+            "email": user["email"],
+            "full_name": user["full_name"],
+            "role": user["role"],
+            "expires": now + timedelta(hours=8)
+        }
+
+        con.execute(
+            "INSERT INTO auth_audit_logs (email, action, ip_address, timestamp) VALUES (?, ?, ?, ?)",
+            (email, "LOGIN_SUCCESS", client_ip, now.isoformat())
+        )
+
+        return jsonify({
+            "ok": True,
+            "message": "Authentication successful.",
+            "token": token,
+            "user": {
+                "email": user["email"],
+                "full_name": user["full_name"],
+                "role": user["role"]
+            }
+        })
+
+@app.post("/api/auth/register")
+def api_register():
+    """Citizen student self-registration with password complexity policy."""
+    data = request.get_json(silent=True) or {}
+    email = str(data.get("email", "")).strip().lower()
+    full_name = str(data.get("full_name", "")).strip()
+    password = str(data.get("password", "")).strip()
+
+    if not email or not full_name or not password:
+        return jsonify({"error": "All fields are required."}), 400
+
+    if len(password) < 8:
+        return jsonify({"error": "Password must be at least 8 characters long for safety."}), 400
+
+    with connect() as con:
+        exists = con.execute("SELECT id FROM users WHERE email=?", (email,)).fetchone()
+        if exists:
+            return jsonify({"error": "An account with this email or OTR ID already exists."}), 409
+
+        p_hash = generate_password_hash(password)
+        now_str = datetime.now().isoformat()
+        con.execute(
+            "INSERT INTO users (email, full_name, role, password_hash, created_at) VALUES (?, ?, 'student', ?, ?)",
+            (email, full_name, p_hash, now_str)
+        )
+        con.execute(
+            "INSERT INTO auth_audit_logs (email, action, ip_address, timestamp) VALUES (?, 'REGISTER', ?, ?)",
+            (email, request.remote_addr or "127.0.0.1", now_str)
+        )
+
+    return jsonify({"ok": True, "message": "Account created successfully. You may now sign in."})
+
+@app.get("/api/auth/me")
+def api_me():
+    """Verify session token."""
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header.replace("Bearer ", "").strip()
+    if not token or token not in _SESSIONS:
+        return jsonify({"authenticated": False}), 401
+
+    session = _SESSIONS[token]
+    if session["expires"] < datetime.now():
+        del _SESSIONS[token]
+        return jsonify({"authenticated": False, "error": "Session expired."}), 401
+
+    return jsonify({
+        "authenticated": True,
+        "user": {
+            "email": session["email"],
+            "full_name": session["full_name"],
+            "role": session["role"]
+        }
+    })
+
+@app.post("/api/auth/logout")
+def api_logout():
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header.replace("Bearer ", "").strip()
+    if token in _SESSIONS:
+        del _SESSIONS[token]
+    return jsonify({"ok": True, "message": "Logged out successfully."})
 
 @app.get("/health")
 def health():

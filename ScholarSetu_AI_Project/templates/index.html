@@ -104,6 +104,9 @@
           <span class="search-label">Quick Search...</span>
           <kbd>Ctrl K</kbd>
         </button>
+        <button type="button" class="btn btn-outline btn-sm auth-header-btn" id="auth-modal-trigger">
+          <span class="auth-icon">🔐</span> <span id="auth-btn-text">Sign In</span>
+        </button>
         <a href="#eligibility" class="btn btn-primary btn-sm">Find Schemes ↗</a>
       </div>
     </div>
@@ -1033,6 +1036,71 @@
       </div>
       <div class="search-results-list" id="global-search-results">
         <div class="search-hint">Type keywords like "AICTE", "Karnataka", "Pragati", "SC", "Engineering"...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Citizen & Officer Authentication Modal (Secure GovTech Vault)
+       ========================================================================= -->
+  <div class="auth-modal-backdrop hidden" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="auth-modal-box">
+      <div class="auth-modal-header">
+        <div class="auth-header-title-wrap">
+          <div class="auth-badge-icon">🏛️</div>
+          <div>
+            <h3 id="auth-modal-title">National Welfare Access Portal</h3>
+            <span class="auth-security-pill">🛡️ PBKDF2 Encrypted · Brute-Force Protected</span>
+          </div>
+        </div>
+        <button type="button" class="auth-modal-close" id="auth-modal-close" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab-btn active" id="tab-student" data-role="student">
+          🎓 Student Citizen
+        </button>
+        <button type="button" class="auth-tab-btn" id="tab-officer" data-role="officer">
+          🏛️ Nodal Officer
+        </button>
+      </div>
+
+      <div class="auth-modal-body">
+        <div id="auth-alert" class="auth-alert hidden"></div>
+
+        <form id="auth-login-form" class="auth-form">
+          <div class="form-group">
+            <label for="auth-email" id="auth-email-label">Student Email / OTR (One-Time Registration ID)</label>
+            <input type="text" id="auth-email" placeholder="e.g. student@scholarsetu.gov.in" required autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <div class="label-with-action">
+              <label for="auth-password">Password / Security PIN</label>
+              <button type="button" class="toggle-password-btn" id="toggle-auth-password">Show</button>
+            </div>
+            <input type="password" id="auth-password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="auth-submit-btn">
+            <span class="btn-text">Authenticate & Sign In ↗</span>
+          </button>
+        </form>
+
+        <div class="auth-divider"><span>OR QUICK DEMO ACCESS FOR JUDGES</span></div>
+
+        <div class="auth-quick-creds">
+          <button type="button" class="quick-cred-btn" id="demo-student-fill">
+            <strong>Student Demo</strong>: student@scholarsetu.gov.in
+          </button>
+          <button type="button" class="quick-cred-btn" id="demo-officer-fill">
+            <strong>Nodal Officer Demo</strong>: nodal@rnsit.ac.in
+          </button>
+        </div>
+
+        <div class="auth-clerk-notice">
+          <span>⚡ SSO & Biometrics Ready (Clerk Auth Integration)</span>
+        </div>
       </div>
     </div>
   </div>

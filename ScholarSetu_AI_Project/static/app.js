@@ -1188,6 +1188,170 @@ function initAIChatbot() {
 }
 
 // ==========================================================================
+// 13. Citizen & Nodal Officer Authentication Subsystem
+// ==========================================================================
+function initAuthModal() {
+  const trigger = $('#auth-modal-trigger');
+  const modal = $('#auth-modal');
+  const closeBtn = $('#auth-modal-close');
+  const form = $('#auth-login-form');
+  const emailInput = $('#auth-email');
+  const passwordInput = $('#auth-password');
+  const emailLabel = $('#auth-email-label');
+  const togglePass = $('#toggle-auth-password');
+  const alertBox = $('#auth-alert');
+  const tabStudent = $('#tab-student');
+  const tabOfficer = $('#tab-officer');
+  const demoStudent = $('#demo-student-fill');
+  const demoOfficer = $('#demo-officer-fill');
+  const authBtnText = $('#auth-btn-text');
+
+  let currentRole = 'student';
+
+  if (!trigger || !modal) return;
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    if (alertBox) alertBox.classList.add('hidden');
+    if (emailInput) emailInput.focus();
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+
+  trigger.addEventListener('click', () => {
+    const token = localStorage.getItem('scholarsetu_auth_token');
+    if (token) {
+      if (confirm('Do you want to sign out of your account?')) {
+        localStorage.removeItem('scholarsetu_auth_token');
+        localStorage.removeItem('scholarsetu_user');
+        updateAuthHeader();
+      }
+      return;
+    }
+    openModal();
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  if (tabStudent) {
+    tabStudent.addEventListener('click', () => {
+      currentRole = 'student';
+      tabStudent.classList.add('active');
+      if (tabOfficer) tabOfficer.classList.remove('active');
+      if (emailLabel) emailLabel.textContent = 'Student Email / OTR (One-Time Registration ID)';
+      if (emailInput) emailInput.placeholder = 'e.g. student@scholarsetu.gov.in';
+    });
+  }
+
+  if (tabOfficer) {
+    tabOfficer.addEventListener('click', () => {
+      currentRole = 'officer';
+      tabOfficer.classList.add('active');
+      if (tabStudent) tabStudent.classList.remove('active');
+      if (emailLabel) emailLabel.textContent = 'College / Nodal Verification Officer Email';
+      if (emailInput) emailInput.placeholder = 'e.g. nodal@rnsit.ac.in';
+    });
+  }
+
+  if (togglePass && passwordInput) {
+    togglePass.addEventListener('click', () => {
+      const isPass = passwordInput.type === 'password';
+      passwordInput.type = isPass ? 'text' : 'password';
+      togglePass.textContent = isPass ? 'Hide' : 'Show';
+    });
+  }
+
+  if (demoStudent) {
+    demoStudent.addEventListener('click', () => {
+      if (tabStudent) tabStudent.click();
+      if (emailInput) emailInput.value = 'student@scholarsetu.gov.in';
+      if (passwordInput) passwordInput.value = 'Scholar@2026';
+    });
+  }
+
+  if (demoOfficer) {
+    demoOfficer.addEventListener('click', () => {
+      if (tabOfficer) tabOfficer.click();
+      if (emailInput) emailInput.value = 'nodal@rnsit.ac.in';
+      if (passwordInput) passwordInput.value = 'Officer@2026';
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput ? emailInput.value.trim() : '';
+      const password = passwordInput ? passwordInput.value.trim() : '';
+
+      if (!email || !password) return;
+
+      if (alertBox) {
+        alertBox.className = 'auth-alert';
+        alertBox.textContent = 'Verifying credentials against National ScholarSetu Vault...';
+        alertBox.classList.remove('hidden');
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Authentication failed');
+        }
+
+        localStorage.setItem('scholarsetu_auth_token', data.token);
+        localStorage.setItem('scholarsetu_user', JSON.stringify(data.user));
+
+        if (alertBox) {
+          alertBox.className = 'auth-alert success';
+          alertBox.textContent = `Welcome, ${data.user.full_name}! Authenticated successfully.`;
+        }
+
+        setTimeout(() => {
+          closeModal();
+          updateAuthHeader();
+        }, 800);
+      } catch (err) {
+        if (alertBox) {
+          alertBox.className = 'auth-alert error';
+          alertBox.textContent = err.message;
+        }
+      }
+    });
+  }
+
+  function updateAuthHeader() {
+    const rawUser = localStorage.getItem('scholarsetu_user');
+    if (rawUser && authBtnText) {
+      try {
+        const user = JSON.parse(rawUser);
+        authBtnText.textContent = user.role === 'nodal_officer' ? 'Officer Portal' : user.full_name.split(' ')[0];
+        trigger.title = `Logged in as ${user.full_name}. Click to Sign Out.`;
+        trigger.classList.add('btn-success');
+      } catch (e) {
+        authBtnText.textContent = 'Sign In';
+      }
+    } else if (authBtnText) {
+      authBtnText.textContent = 'Sign In';
+      trigger.title = 'Sign In to Student or Officer Desk';
+      trigger.classList.remove('btn-success');
+    }
+  }
+
+  updateAuthHeader();
+}
+
+// ==========================================================================
 // 11. App Initialization
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -1198,5 +1362,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initDocumentReadiness();
   initGlobalSearch();
   initAIChatbot();
+  initAuthModal();
   loadLibrary();
 });
