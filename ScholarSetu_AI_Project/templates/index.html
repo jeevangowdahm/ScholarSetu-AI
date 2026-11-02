@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b2545">
+  <meta name="description" content="ScholarSetu — India's verified student scholarship and government welfare scheme eligibility checker. Real schemes, transparent rule checks, DBT assistance, and official portal guides.">
+  <meta name="keywords" content="ScholarSetu, NSP, SSP Karnataka, Government Scholarships, Scholarship Eligibility Checker, Central Sector Scheme, AICTE Pragati, Post Matric Scholarship">
+  <title>ScholarSetu | National Scholarship & Welfare Scheme Eligibility Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="theme-default">
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Top Tricolor Ribbon & Official GovTech Header Bar -->
+  <div class="gov-topbar">
+    <div class="tricolor-bar" aria-hidden="true">
+      <span class="tri-saffron"></span>
+      <span class="tri-white"></span>
+      <span class="tri-green"></span>
+    </div>
+    <div class="gov-header-inner">
+      <div class="gov-emblem-wrap">
+        <svg class="gov-emblem-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="#003366"/>
+          <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14" stroke="#003366" stroke-width="1"/>
+          <circle cx="12" cy="12" r="3" fill="#003366"/>
+        </svg>
+        <div class="gov-titles">
+          <span class="gov-main-title">भारत सरकार | Government of India & State Welfare Portals</span>
+          <span class="gov-sub-title">National Student Scholarship & Direct Benefit Transfer (DBT) Aggregator</span>
+        </div>
+      </div>
+      <div class="gov-tools">
+        <div class="accessibility-tools" aria-label="Accessibility options">
+          <button type="button" class="tool-btn" id="font-dec" title="Decrease font size" aria-label="Decrease font size">A-</button>
+          <button type="button" class="tool-btn active-tool" id="font-reset" title="Normal font size" aria-label="Normal font size">A</button>
+          <button type="button" class="tool-btn" id="font-inc" title="Increase font size" aria-label="Increase font size">A+</button>
+          <span class="tool-sep" aria-hidden="true">|</span>
+          <button type="button" class="contrast-btn" id="contrast-toggle" title="Toggle High Contrast Mode" aria-pressed="false">
+            <span class="contrast-icon">◐</span> High Contrast
+          </button>
+        </div>
+        <div class="lang-selector">
+          <span class="lang-icon">🌐</span>
+          <select id="lang-select" aria-label="Select portal language">
+            <option value="en">English (India)</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Application Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-block">
+        <a href="#hero" class="brand-link" aria-label="ScholarSetu Home">
+          <div class="brand-icon">
+            <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+              <rect width="36" height="36" rx="9" fill="#003366"/>
+              <path d="M7 13.5L18 8L29 13.5L18 19L7 13.5Z" fill="#FF9933"/>
+              <path d="M11 16.5V23.5C11 27 18 29 18 29C18 29 25 27 25 23.5V16.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+              <path d="M29 14.5V22.5" stroke="#138808" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="29" cy="24" r="1.5" fill="#138808"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Scholar<span>Setu</span></span>
+            <span class="brand-badge">STUDENT SCHOLARSHIP DESK</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="primary-nav" aria-label="Main Navigation">
+        <a href="#hero" class="nav-item active" data-nav="hero">Overview</a>
+        <a href="#eligibility" class="nav-item" data-nav="eligibility">Eligibility Checker</a>
+        <a href="#library" class="nav-item" data-nav="library">
+          Scheme Library
+          <span class="nav-count-badge" id="nav-lib-count">16</span>
+        </a>
+        <a href="#compare" class="nav-item" data-nav="compare">
+          Compare
+          <span class="nav-count-badge compare-badge" id="nav-compare-count">0</span>
+        </a>
+        <a href="#readiness" class="nav-item" data-nav="readiness">Document Readiness</a>
+        <a href="#saved" class="nav-item" data-nav="saved">
+          Shortlist
+          <span class="nav-count-badge saved-badge" id="nav-saved-count">0</span>
+        </a>
+        <a href="#portals" class="nav-item" data-nav="portals">Gov Portals</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="header-search-btn" id="global-search-trigger" aria-label="Search schemes (Press Ctrl+K)">
+          <span class="search-icon">🔍</span>
+          <span class="search-label">Quick Search...</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+        <a href="#eligibility" class="btn btn-primary btn-sm">Find Schemes ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main id="main-content">
+
+    <!-- Hero Section with Official Metrics & Trust Banner -->
+    <section class="hero-section" id="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-kicker">
+            <span class="kicker-pulse"></span>
+            <span>VERIFIED NATIONAL & STATE WELFARE PORTAL INTEGRATION</span>
+          </div>
+          <h1 class="hero-heading">
+            Connect directly to <span class="highlight-text">Government Scholarships</span> & Welfare Schemes.
+          </h1>
+          <p class="hero-subtext">
+            A transparent, deterministic eligibility checker matching Indian students with Central Ministries and State Government scholarships based on verified academic, income, and category rules.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#eligibility" class="btn btn-primary btn-lg">
+              <span>Start Eligibility Check</span>
+              <span class="btn-arrow">→</span>
+            </a>
+            <a href="#library" class="btn btn-outline btn-lg">
+              <span>Browse 16 Verified Schemes</span>
+            </a>
+          </div>
+
+          <div class="hero-tags">
+            <span class="tag-label">Popular Categories:</span>
+            <button type="button" class="hero-chip" data-filter-quick="Technical Education">Technical / AICTE</button>
+            <button type="button" class="hero-chip" data-filter-quick="Welfare-based">SC / ST / OBC Welfare</button>
+            <button type="button" class="hero-chip" data-filter-quick="Girls & Minority">Girls & Single Child</button>
+            <button type="button" class="hero-chip" data-filter-quick="State Welfare">Karnataka SSP</button>
+          </div>
+        </div>
+
+        <!-- Hero Stats Cards -->
+        <div class="hero-stats-panel" aria-label="Platform Highlights">
+          <div class="stat-card">
+            <div class="stat-icon-wrap icon-blue">🏛️</div>
+            <div class="stat-info">
+              <span class="stat-number" id="stat-schemes">16</span>
+              <span class="stat-label">Active Schemes Available</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-wrap icon-green">₹</div>
+            <div class="stat-info">
+              <span class="stat-number" id="stat-max-aid">₹2,50,000</span>
+              <span class="stat-label">Maximum Annual Grant / DBT</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-wrap icon-saffron">⚡</div>
+            <div class="stat-info">
+              <span class="stat-number" id="stat-ministries">8</span>
+              <span class="stat-label">Ministries & Departments</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-wrap icon-teal">🛡️</div>
+            <div class="stat-info">
+              <span class="stat-number">100% DBT</span>
+              <span class="stat-label">PFMS / Aadhaar Bank Transfer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust & Transparency Disclaimer Banner -->
+    <div class="trust-banner">
+      <div class="trust-inner">
+        <span class="trust-shield">🛡️</span>
+        <div class="trust-text">
+          <strong>Official Transparency Guarantee:</strong>
+          ScholarSetu uses an explainable rule engine matching official government criteria. We never claim a guarantee of funding or approval; all applications are officially processed through the respective Government Nodal Portals (NSP / SSP / AICTE).
+        </div>
+        <button type="button" class="trust-close" id="dismiss-trust" aria-label="Dismiss banner">×</button>
+      </div>
+    </div>
+
+    <!-- Section 1: Multi-Step Interactive Eligibility Checker -->
+    <section class="section-container eligibility-section" id="eligibility">
+      <div class="section-header">
+        <div class="section-eyebrow">STEP-BY-STEP SCREENING</div>
+        <h2 class="section-title">Scholarship & Scheme Eligibility Checker</h2>
+        <p class="section-desc">
+          Enter your authentic academic and socio-economic details. Our rule engine screens all 16 schemes in real time and provides an explainable breakdown of matches, conditional criteria, and document requirements.
+        </p>
+      </div>
+
+      <div class="eligibility-workspace">
+        <!-- Interactive Multi-Step Form -->
+        <div class="wizard-card">
+          <!-- Stepper Navigation Header -->
+          <div class="wizard-stepper" role="tablist" aria-label="Screening Steps">
+            <div class="step-tab active" data-step="1" role="tab" aria-selected="true">
+              <div class="step-indicator">1</div>
+              <div class="step-meta">
+                <span class="step-num-text">STEP 1</span>
+                <span class="step-name">Personal & Location</span>
+              </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-tab" data-step="2" role="tab" aria-selected="false">
+              <div class="step-indicator">2</div>
+              <div class="step-meta">
+                <span class="step-num-text">STEP 2</span>
+                <span class="step-name">Academic Profile</span>
+              </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-tab" data-step="3" role="tab" aria-selected="false">
+              <div class="step-indicator">3</div>
+              <div class="step-meta">
+                <span class="step-num-text">STEP 3</span>
+                <span class="step-name">Category & Income</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="eligibility-form" novalidate>
+            <!-- STEP 1: Personal & Location -->
+            <div class="wizard-panel active" id="step-panel-1">
+              <div class="panel-header">
+                <h3>Personal Identity & Domicile</h3>
+                <p>Certain schemes (e.g. AICTE Pragati, Begum Hazrat Mahal, Ishan Uday) are specific to gender, domicile state, or special circumstances.</p>
+              </div>
+
+              <div class="form-row form-grid-2">
+                <div class="form-group">
+                  <label for="student-gender">Gender <span class="required">*</span></label>
+                  <select id="student-gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Female">Female (Girl Student)</option>
+                    <option value="Male">Male</option>
+                    <option value="Transgender">Transgender / Other</option>
+                  </select>
+                  <span class="form-hint">Crucial for female-specific scholarships (Pragati, Begum Hazrat Mahal, Single Girl Child).</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="student-age">Student Age (Years) <span class="required">*</span></label>
+                  <input type="number" id="student-age" min="12" max="40" placeholder="e.g. 19" value="19" required>
+                  <span class="form-hint">Most undergraduate schemes require age between 16 and 30.</span>
+                </div>
+              </div>
+
+              <div class="form-row form-grid-2">
+                <div class="form-group">
+                  <label for="student-state">State of Domicile / Permanent Residence <span class="required">*</span></label>
+                  <select id="student-state" required>
+                    <option value="">Select State / Union Territory</option>
+                    <option value="Karnataka" selected>Karnataka (Eligible for SSP Karnataka & All Central)</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Delhi">Delhi (NCT)</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Assam">Assam (North Eastern Region)</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh (NER)</option>
+                    <option value="Manipur">Manipur (NER)</option>
+                    <option value="Meghalaya">Meghalaya (NER)</option>
+                    <option value="Mizoram">Mizoram (NER)</option>
+                    <option value="Nagaland">Nagaland (NER)</option>
+                    <option value="Sikkim">Sikkim (NER)</option>
+                    <option value="Tripura">Tripura (NER)</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Other">Other State / UT</option>
+                  </select>
+                  <span class="form-hint">Select Karnataka for SSP or 8 North Eastern States for Ishan Uday.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="student-area">Residential Area</label>
+                  <select id="student-area">
+                    <option value="Urban">Urban / Metro</option>
+                    <option value="Semi-Urban">Semi-Urban</option>
+                    <option value="Rural" selected>Rural</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Special Conditions Checkboxes -->
+              <div class="form-group special-profiles-group">
+                <label class="group-label">Special Hardship & Priority Categories (Check all that apply):</label>
+                <div class="checkbox-tiles">
+                  <label class="tile-checkbox">
+                    <input type="checkbox" id="check-pwd">
+                    <span class="tile-card">
+                      <span class="tile-icon">♿</span>
+                      <span class="tile-content">
+                        <strong>Differently Abled (PwD >= 40%)</strong>
+                        <small>Eligible for AICTE Saksham & special disability allowances</small>
+                      </span>
+                    </span>
+                  </label>
+
+                  <label class="tile-checkbox">
+                    <input type="checkbox" id="check-single-girl">
+                    <span class="tile-card">
+                      <span class="tile-icon">👧</span>
+                      <span class="tile-content">
+                        <strong>Single Girl Child</strong>
+                        <small>Only child of parents (Eligible for UGC PG Single Girl Child)</small>
+                      </span>
+                    </span>
+                  </label>
+
+                  <label class="tile-checkbox">
+                    <input type="checkbox" id="check-orphan-covid">
+                    <span class="tile-card">
+                      <span class="tile-icon">🤝</span>
+                      <span class="tile-content">
+                        <strong>Orphan / COVID-19 / Martyr Ward</strong>
+                        <small>Eligible for AICTE Swanath (₹50,000/yr)</small>
+                      </span>
+                    </span>
+                  </label>
+
+                  <label class="tile-checkbox">
+                    <input type="checkbox" id="check-ex-servicemen">
+                    <span class="tile-card">
+                      <span class="tile-icon">🎖️</span>
+                      <span class="tile-content">
+                        <strong>Ward of Ex-Servicemen / CAPF</strong>
+                        <small>Eligible for PMSS via Kendriya Sainik Board</small>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="wizard-actions">
+                <div></div>
+                <button type="button" class="btn btn-primary step-next-btn" data-target="2">
+                  <span>Continue to Academic Profile</span>
+                  <span class="btn-arrow">→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 2: Academic Profile -->
+            <div class="wizard-panel" id="step-panel-2">
+              <div class="panel-header">
+                <h3>Current Academic Course & Performance</h3>
+                <p>Schemes define distinct thresholds for education level, degree type, and previous qualifying examination marks.</p>
+              </div>
+
+              <div class="form-row form-grid-2">
+                <div class="form-group">
+                  <label for="student-level">Current Education Level <span class="required">*</span></label>
+                  <select id="student-level" required>
+                    <option value="">Select Education Level</option>
+                    <option value="Undergraduate" selected>Undergraduate (B.E. / B.Tech / MBBS / B.Sc / B.Com / B.A)</option>
+                    <option value="Postgraduate">Postgraduate (M.Tech / M.Sc / M.Com / MBA / M.A)</option>
+                    <option value="Diploma">Diploma / Polytechnic</option>
+                    <option value="Higher Secondary">Higher Secondary (Class 11 & 12 / Pre-University)</option>
+                    <option value="Secondary">Secondary (Class 9 & 10)</option>
+                    <option value="Ph.D.">Ph.D. / Doctoral Research</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="student-stream">Discipline / Course Stream <span class="required">*</span></label>
+                  <select id="student-stream" required>
+                    <option value="Engineering" selected>Engineering & Technology (AICTE recognized)</option>
+                    <option value="Medicine">Medicine & Allied Health Sciences</option>
+                    <option value="Science">Pure & Applied Sciences</option>
+                    <option value="Commerce">Commerce, Finance & Management</option>
+                    <option value="Arts">Arts, Humanities & Social Sciences</option>
+                    <option value="Law">Law & Legal Studies</option>
+                    <option value="Any">General / Other Stream</option>
+                  </select>
+                  <span class="form-hint">AICTE Pragati, Saksham, and Swanath apply specifically to Technical/Engineering degrees.</span>
+                </div>
+              </div>
+
+              <div class="form-row form-grid-2">
+                <div class="form-group">
+                  <label for="student-marks">Previous Qualifying Exam Score (%) <span class="required">*</span></label>
+                  <div class="input-with-suffix">
+                    <input type="number" id="student-marks" min="0" max="100" step="0.1" placeholder="e.g. 82.5" value="82.5" required>
+                    <span class="suffix">%</span>
+                  </div>
+                  <span class="form-hint">E.g., Class 12 score for 1st-year degree students. PM-USP requires >= 80th percentile.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="student-inst-type">Institution Category</label>
+                  <select id="student-inst-type">
+                    <option value="AICTE Approved" selected>AICTE Approved / State University College</option>
+                    <option value="Central Institute">Premier Notified Institute (IIT / NIT / AIIMS / IIM / IISc)</option>
+                    <option value="State Govt">State Government / Aided College</option>
+                    <option value="Private">Private / Self-Financing College</option>
+                  </select>
+                  <span class="form-hint">Top Class SC Scheme requires admission in premier notified institutes.</span>
+                </div>
+              </div>
+
+              <div class="wizard-actions">
+                <button type="button" class="btn btn-outline step-prev-btn" data-target="1">
+                  <span>← Back to Step 1</span>
+                </button>
+                <button type="button" class="btn btn-primary step-next-btn" data-target="3">
+                  <span>Continue to Category & Income</span>
+                  <span class="btn-arrow">→</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 3: Socio-Economic & Income -->
+            <div class="wizard-panel" id="step-panel-3">
+              <div class="panel-header">
+                <h3>Social Category & Household Income</h3>
+                <p>Most welfare and reservation-based scholarships have mandated annual family income ceilings.</p>
+              </div>
+
+              <div class="form-row form-grid-2">
+                <div class="form-group">
+                  <label for="student-category">Social Category / Reservation <span class="required">*</span></label>
+                  <select id="student-category" required>
+                    <option value="Any">Any / Not Specified</option>
+                    <option value="General">General (Unreserved)</option>
+                    <option value="OBC">OBC (Other Backward Classes - Non Creamy Layer)</option>
+                    <option value="SC">SC (Scheduled Caste)</option>
+                    <option value="ST">ST (Scheduled Tribe)</option>
+                    <option value="EWS">EWS (Economically Weaker Section)</option>
+                  </select>
+                  <span class="form-hint">Matches Post-Matric SC/ST, PM-YASASVI, or Top Class Education.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="student-minority">Minority Community Status</label>
+                  <select id="student-minority">
+                    <option value="None" selected>None / Not Applicable</option>
+                    <option value="Muslim">Muslim</option>
+                    <option value="Christian">Christian</option>
+                    <option value="Sikh">Sikh</option>
+                    <option value="Buddhist">Buddhist</option>
+                    <option value="Jain">Jain</option>
+                    <option value="Parsi">Parsi</option>
+                  </select>
+                  <span class="form-hint">Matches Begum Hazrat Mahal and Ministry of Minority Affairs schemes.</span>
+                </div>
+              </div>
+
+              <!-- Annual Family Income with Presets -->
+              <div class="form-group">
+                <label for="student-income">Annual Gross Family Income (₹) <span class="required">*</span></label>
+                <div class="input-with-prefix">
+                  <span class="prefix">₹</span>
+                  <input type="number" id="student-income" min="0" step="10000" placeholder="e.g. 240000" value="240000" required>
+                </div>
+                <div class="income-presets" aria-label="Quick income presets">
+                  <span>Common limits:</span>
+                  <button type="button" class="preset-btn" data-income="140000">₹1.4 Lakh (OBC Cap)</button>
+                  <button type="button" class="preset-btn" data-income="240000">₹2.4 Lakh (SC/ST Cap)</button>
+                  <button type="button" class="preset-btn" data-income="400000">₹4.0 Lakh (PM-USP Cap)</button>
+                  <button type="button" class="preset-btn" data-income="750000">₹7.5 Lakh (AICTE Cap)</button>
+                </div>
+                <span class="form-hint">Total annual income from all sources as stated on your Tahsildar / Revenue Income Certificate.</span>
+              </div>
+
+              <div id="form-error-msg" class="alert-box alert-error hidden" role="alert"></div>
+
+              <div class="wizard-actions">
+                <button type="button" class="btn btn-outline step-prev-btn" data-target="2">
+                  <span>← Back to Step 2</span>
+                </button>
+                <button type="submit" class="btn btn-success btn-lg" id="run-check-btn">
+                  <span class="btn-icon">⚡</span>
+                  <span class="btn-label">Run Real-Time Eligibility Match</span>
+                  <span class="btn-arrow">→</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sidebar: How the Deterministic Matching Engine Works -->
+        <aside class="explainer-sidebar">
+          <div class="explainer-card">
+            <div class="explainer-header">
+              <span class="explainer-tag">TRANSPARENT MATCHING</span>
+              <h3>How Our Eligibility Engine Checks Your Profile</h3>
+            </div>
+            <p>
+              Unlike generic search engines that guess or return false confidence numbers, ScholarSetu evaluates every single rule against verified gazette conditions:
+            </p>
+            <ul class="engine-steps">
+              <li>
+                <div class="step-badge">1</div>
+                <div>
+                  <strong>Level & Stream Alignment</strong>
+                  <p>Verifies if your education level (UG/PG/Diploma) and discipline match the scheme mandate.</p>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">2</div>
+                <div>
+                  <strong>Domicile & Reservation Check</strong>
+                  <p>Validates state residency (e.g. Karnataka SSP or NER) and reserved category allocations.</p>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">3</div>
+                <div>
+                  <strong>Merit Threshold & Income Ceiling</strong>
+                  <p>Compares your previous score against cut-offs and verifies household income under the legal limit.</p>
+                </div>
+              </li>
+              <li>
+                <div class="step-badge">4</div>
+                <div>
+                  <strong>Special Hardship Prioritization</strong>
+                  <p>Applies statutory reservations for girl students, PwD, orphans, and defence wards.</p>
+                </div>
+              </li>
+            </ul>
+            <div class="explainer-footer">
+              <span class="lock-icon">🔒</span>
+              <small>Zero personal data is saved to public trackers. No Aadhaar number or document upload is ever requested.</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Eligibility Results View (Rendered after match) -->
+      <div id="results-container" class="results-container hidden" aria-live="polite">
+        <div class="results-header-block">
+          <div>
+            <div class="section-eyebrow">SCREENING RESULTS SUMMARY</div>
+            <h3 class="results-title">Evaluated Scholarships for Your Profile</h3>
+            <p class="results-subtitle" id="results-meta-text">All 16 schemes were evaluated against your inputs.</p>
+          </div>
+          <div class="results-actions">
+            <button type="button" class="btn btn-outline btn-sm" id="re-edit-profile-btn">✏️ Edit Profile</button>
+            <button type="button" class="btn btn-primary btn-sm" id="export-results-btn">🖨️ Print Application Summary</button>
+          </div>
+        </div>
+
+        <!-- Result KPI Bar -->
+        <div class="result-kpi-bar" id="result-kpi-bar">
+          <div class="kpi-box kpi-eligible">
+            <span class="kpi-val" id="kpi-count-eligible">0</span>
+            <span class="kpi-lbl">Directly Eligible</span>
+          </div>
+          <div class="kpi-box kpi-conditional">
+            <span class="kpi-val" id="kpi-count-conditional">0</span>
+            <span class="kpi-lbl">Action / Info Needed</span>
+          </div>
+          <div class="kpi-box kpi-ineligible">
+            <span class="kpi-val" id="kpi-count-ineligible">0</span>
+            <span class="kpi-lbl">Criteria Not Met</span>
+          </div>
+          <div class="kpi-box kpi-aid">
+            <span class="kpi-val" id="kpi-total-aid">₹0</span>
+            <span class="kpi-lbl">Estimated Annual Assistance</span>
+          </div>
+        </div>
+
+        <!-- Result Status Filter Tabs -->
+        <div class="result-filter-tabs">
+          <button type="button" class="filter-tab active" data-result-tab="all">All Evaluated Schemes (16)</button>
+          <button type="button" class="filter-tab" data-result-tab="eligible">Directly Eligible</button>
+          <button type="button" class="filter-tab" data-result-tab="conditional">Needs Verification / More Info</button>
+          <button type="button" class="filter-tab" data-result-tab="ineligible">Not Matched</button>
+        </div>
+
+        <!-- Results Grid -->
+        <div class="results-cards-grid" id="results-grid"></div>
+      </div>
+    </section>
+
+    <!-- Section 2: Comprehensive Scheme Library & Explorer -->
+    <section class="section-container library-section" id="library">
+      <div class="section-header">
+        <div class="section-eyebrow">NATIONAL & STATE REPOSITORY</div>
+        <h2 class="section-title">Verified Scheme Library (16 Schemes)</h2>
+        <p class="section-desc">
+          Browse, search, and filter the complete collection of Central Sector, AICTE, UGC, Karnataka SSP, and corporate foundation scholarships.
+        </p>
+      </div>
+
+      <!-- Library Controls Toolbar -->
+      <div class="library-toolbar">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="search" id="library-search" placeholder="Search by scheme name, ministry, keyword or code (e.g. AICTE, Karnataka, Merit)..." aria-label="Search schemes in library">
+          <kbd>Ctrl K</kbd>
+        </div>
+
+        <div class="filter-dropdown-group">
+          <div class="filter-select-wrap">
+            <label for="lib-category-filter">Category:</label>
+            <select id="lib-category-filter">
+              <option value="All">All Categories</option>
+              <option value="Merit-based">Merit-based</option>
+              <option value="Welfare-based">Welfare-based (SC/ST/OBC)</option>
+              <option value="Technical Education">Technical & Engineering</option>
+              <option value="Girls & Minority">Girls & Minority</option>
+              <option value="State Welfare">State Welfare (Karnataka)</option>
+              <option value="Special Hardship">Special Hardship & Defence</option>
+            </select>
+          </div>
+
+          <div class="filter-select-wrap">
+            <label for="lib-sort-filter">Sort by:</label>
+            <select id="lib-sort-filter">
+              <option value="benefit_desc">Benefit: High to Low</option>
+              <option value="benefit_asc">Benefit: Low to High</option>
+              <option value="name">Scheme Name (A-Z)</option>
+              <option value="marks">Minimum Marks Required</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Pills -->
+      <div class="quick-pills-bar" aria-label="Quick Category Filters">
+        <button type="button" class="pill-btn active" data-pill="All">All Schemes (16)</button>
+        <button type="button" class="pill-btn" data-pill="Technical Education">Engineering & Technical</button>
+        <button type="button" class="pill-btn" data-pill="Welfare-based">SC / ST / OBC Welfare</button>
+        <button type="button" class="pill-btn" data-pill="Girls & Minority">Girls & Minority</button>
+        <button type="button" class="pill-btn" data-pill="State Welfare">Karnataka SSP</button>
+        <button type="button" class="pill-btn" data-pill="Special Hardship">Defence / PwD / Orphans</button>
+      </div>
+
+      <div class="library-status-row">
+        <span id="library-count-text">Showing 16 verified schemes</span>
+        <span class="dbt-verified-badge">✓ All schemes verified for Academic Year 2026-27</span>
+      </div>
+
+      <!-- Scheme Cards Grid -->
+      <div class="scheme-cards-grid" id="library-grid">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Section 3: Interactive Scheme Comparison Tool -->
+    <section class="section-container compare-section" id="compare">
+      <div class="section-header">
+        <div class="section-eyebrow">SIDE-BY-SIDE MATRIX</div>
+        <h2 class="section-title">Scheme Comparison Matrix</h2>
+        <p class="section-desc">
+          Compare up to 4 schemes side-by-side to understand differences in financial assistance, income ceilings, eligibility thresholds, and mandatory paperwork.
+        </p>
+      </div>
+
+      <div class="compare-container">
+        <div class="compare-selector-bar">
+          <div class="compare-instruction">
+            <span>Select schemes from the library using the <strong>[+ Compare]</strong> checkbox on any card, or choose from the dropdown below:</span>
+          </div>
+          <div class="compare-quick-select">
+            <select id="compare-add-select" aria-label="Add scheme to comparison">
+              <option value="">+ Add a scheme to compare...</option>
+            </select>
+            <button type="button" class="btn btn-outline btn-sm" id="clear-compare-btn">Clear All</button>
+          </div>
+        </div>
+
+        <div id="compare-matrix-wrapper" class="compare-matrix-wrapper">
+          <div class="empty-compare-state">
+            <span class="empty-icon">⚖️</span>
+            <h4>No Schemes Selected for Comparison</h4>
+            <p>Select at least 2 schemes by clicking the "+ Compare" button on any scheme card to see an exhaustive side-by-side breakdown.</p>
+            <button type="button" class="btn btn-primary btn-sm" id="compare-demo-load">Load Sample Comparison (AICTE Pragati vs PM-USP vs Karnataka SSP)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Document Readiness Checker -->
+    <section class="section-container readiness-section" id="readiness">
+      <div class="section-header">
+        <div class="section-eyebrow">APPLICATION PREPARATION</div>
+        <h2 class="section-title">Student Document Readiness Checker</h2>
+        <p class="section-desc">
+          80% of government scholarship applications get rejected or delayed due to missing or unseeded documents. Check your paperwork readiness below before the official application window closes.
+        </p>
+      </div>
+
+      <div class="readiness-workspace">
+        <div class="readiness-card">
+          <div class="readiness-progress-header">
+            <div>
+              <h3>Essential Application Documents</h3>
+              <p>Tick off each certificate or document you currently hold in valid, original digital format.</p>
+            </div>
+            <div class="readiness-score-box">
+              <div class="score-circle" id="doc-readiness-percent">0%</div>
+              <span class="score-caption">Readiness Score</span>
+            </div>
+          </div>
+
+          <div class="doc-checklist-grid" id="doc-checklist-grid">
+            <label class="doc-item">
+              <input type="checkbox" class="doc-check" data-weight="20" data-doc="aadhaar">
+              <span class="doc-item-box">
+                <span class="doc-icon">🪪</span>
+                <span class="doc-details">
+                  <strong>Aadhaar Linked with Active Bank Account (NPCI Seeding)</strong>
+                  <small>Mandatory for Direct Benefit Transfer (DBT). Check status on resident.uidai.gov.in or bank branch.</small>
+                </span>
+                <span class="doc-status-badge">Required</span>
+              </span>
+            </label>
+
+            <label class="doc-item">
+              <input type="checkbox" class="doc-check" data-weight="20" data-doc="income">
+              <span class="doc-item-box">
+                <span class="doc-icon">📜</span>
+                <span class="doc-details">
+                  <strong>Annual Family Income Certificate (Issued within 1 Year)</strong>
+                  <small>Must be issued by competent revenue authority (Tahsildar / Revenue Inspector) with valid barcode.</small>
+                </span>
+                <span class="doc-status-badge">Required</span>
+              </span>
+            </label>
+
+            <label class="doc-item">
+              <input type="checkbox" class="doc-check" data-weight="15" data-doc="caste">
+              <span class="doc-item-box">
+                <span class="doc-icon">🏛️</span>
+                <span class="doc-details">
+                  <strong>Caste / Community / EWS Certificate (If Applicable)</strong>
+                  <small>Issued by state revenue portal (e.g. Nadakacheri RD Number in Karnataka) with digital verification.</small>
+                </span>
+                <span class="doc-status-badge">Reservation</span>
+              </span>
+            </label>
+
+            <label class="doc-item">
+              <input type="checkbox" class="doc-check" data-weight="15" data-doc="marksheet">
+              <span class="doc-item-box">
+                <span class="doc-icon">🎓</span>
+                <span class="doc-details">
+                  <strong>Previous Qualifying Exam Marksheet & Passing Certificate</strong>
+                  <small>Original or DigiLocker verified digital copy of 10th, 12th, or diploma scorecard.</small>
+                </span>
+                <span class="doc-status-badge">Academic</span>
+              </span>
+            </label>
+
+            <label class="doc-item">
+              <input type="checkbox" class="doc-check" data-weight="15" data-doc="bonafide">
+              <span class="doc-item-box">
+                <span class="doc-icon">🏫</span>
+                <span class="doc-details">
+                  <strong>College Bonafide Student Certificate & Current Fee Receipt</strong>
+                  <small>Signed by College Principal / Dean with official institutional seal and current academic year.</small>
+                </span>
+                <span class="doc-status-badge">Institutional</span>
+              </span>
+            </label>
+
+            <label class="doc-item">
+              <input type="checkbox" class="doc-check" data-weight="15" data-doc="domicile">
+              <span class="doc-item-box">
+                <span class="doc-icon">📍</span>
+                <span class="doc-details">
+                  <strong>Domicile / Permanent Resident Certificate (PRC)</strong>
+                  <small>Required for state-specific quotas (e.g. Karnataka SSP or North East Ishan Uday).</small>
+                </span>
+                <span class="doc-status-badge">Domicile</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="readiness-tips-box" id="readiness-tips-box">
+            <span class="tips-icon">💡</span>
+            <div id="readiness-guidance">
+              <strong>Tip to speed up your verification:</strong>
+              Download DigiLocker app on your mobile phone. Over 85% of state certificates (Caste, Income, Marksheet) can be linked instantly using your Aadhaar number.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Saved Schemes Shortlist & Exportable Application Kit -->
+    <section class="section-container saved-section" id="saved">
+      <div class="section-header">
+        <div class="section-eyebrow">YOUR SHORTLISTED APPLICATIONS</div>
+        <h2 class="section-title">Saved Schemes & Application Kit</h2>
+        <p class="section-desc">
+          Review the scholarships you have shortlisted for application. Export or print a clean summary sheet with document requirements to take to your college scholarship officer.
+        </p>
+      </div>
+
+      <div class="saved-workspace">
+        <div class="saved-toolbar">
+          <div class="saved-count-indicator">
+            <span class="star-icon">⭐</span>
+            <span id="saved-summary-text">0 schemes shortlisted</span>
+          </div>
+          <div class="saved-actions">
+            <button type="button" class="btn btn-outline btn-sm" id="export-shortlist-btn">🖨️ Print Application Checklist</button>
+          </div>
+        </div>
+
+        <div class="saved-grid" id="saved-grid">
+          <div class="empty-shortlist">
+            <span class="empty-star">⭐</span>
+            <h4>Your Shortlist is Empty</h4>
+            <p>Save scholarships from the Eligibility Checker or Scheme Library by clicking the "☆ Save Scheme" button.</p>
+            <a href="#library" class="btn btn-outline btn-sm">Explore Scheme Library</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Official Government Portals Quick Directory -->
+    <section class="section-container portals-section" id="portals">
+      <div class="section-header">
+        <div class="section-eyebrow">VERIFIED DIRECTORY</div>
+        <h2 class="section-title">Official Government Scholarship Portals</h2>
+        <p class="section-desc">
+          Always apply directly on the verified government portal. Never pay fees to private agents or intermediaries for government schemes.
+        </p>
+      </div>
+
+      <div class="portals-grid">
+        <div class="portal-card">
+          <div class="portal-badge national-badge">CENTRAL PORTAL</div>
+          <div class="portal-header">
+            <h4>National Scholarship Portal (NSP)</h4>
+            <span class="portal-host">scholarships.gov.in</span>
+          </div>
+          <p>
+            India's unified central portal by MoE, MoSJE, MoTA, AICTE & UGC. Single gateway for all Central Sector, Post-Matric, and AICTE schemes.
+          </p>
+          <ul class="portal-features">
+            <li>✓ One Time Registration (OTR) with Face eKYC</li>
+            <li>✓ Direct Integration with PFMS for DBT Transfer</li>
+            <li>✓ Covers 100+ Central Government Schemes</li>
+          </ul>
+          <a href="https://scholarships.gov.in/Students" target="_blank" rel="noopener noreferrer" class="portal-link">
+            Open NSP Portal ↗
+          </a>
+        </div>
+
+        <div class="portal-card">
+          <div class="portal-badge state-badge">STATE PORTAL</div>
+          <div class="portal-header">
+            <h4>Karnataka State Scholarship Portal (SSP)</h4>
+            <span class="portal-host">ssp.postmatric.karnataka.gov.in</span>
+          </div>
+          <p>
+            Unified portal for all Karnataka post-matric students managed by Social Welfare, Tribal, Backward Classes & Minorities Welfare Departments.
+          </p>
+          <ul class="portal-features">
+            <li>✓ Automated Nadakacheri RD-number verification</li>
+            <li>✓ College e-Attestation integration</li>
+            <li>✓ Full course fee + hostel allowance reimbursement</li>
+          </ul>
+          <a href="https://ssp.postmatric.karnataka.gov.in/" target="_blank" rel="noopener noreferrer" class="portal-link">
+            Open SSP Karnataka ↗
+          </a>
+        </div>
+
+        <div class="portal-card">
+          <div class="portal-badge digital-badge">DISCOVERY HUB</div>
+          <div class="portal-header">
+            <h4>myScheme Portal (MeitY & NeGD)</h4>
+            <span class="portal-host">myscheme.gov.in</span>
+          </div>
+          <p>
+            National e-marketplace for discovering Central and State Government welfare initiatives across education, health, and skill development.
+          </p>
+          <ul class="portal-features">
+            <li>✓ 1,500+ Central & State Schemes</li>
+            <li>✓ Citizen questionnaire eligibility matching</li>
+            <li>✓ Multilingual support in 12+ Indian languages</li>
+          </ul>
+          <a href="https://www.myscheme.gov.in/" target="_blank" rel="noopener noreferrer" class="portal-link">
+            Open myScheme ↗
+          </a>
+        </div>
+
+        <div class="portal-card">
+          <div class="portal-badge tech-badge">DOCUMENTS & LOANS</div>
+          <div class="portal-header">
+            <h4>DigiLocker & Vidya Lakshmi Portal</h4>
+            <span class="portal-host">digilocker.gov.in | vidyalakshmi.co.in</span>
+          </div>
+          <p>
+            Official digital locker for authentic certificates, and Ministry of Education's centralized education loan and CSIS interest subsidy portal.
+          </p>
+          <ul class="portal-features">
+            <li>✓ Legally valid digital certificates under IT Act</li>
+            <li>✓ 100% full interest subsidy on education loans (CSIS)</li>
+            <li>✓ Paperless verification with banks & universities</li>
+          </ul>
+          <a href="https://www.digilocker.gov.in/" target="_blank" rel="noopener noreferrer" class="portal-link">
+            Open DigiLocker ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Comprehensive Scheme Details Modal (Drawer) -->
+  <div class="modal-backdrop hidden" id="scheme-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-titles">
+          <span class="modal-dept" id="modal-dept">Ministry Department</span>
+          <h3 id="modal-title">Scheme Name</h3>
+          <span class="modal-code" id="modal-code">CODE</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="modal-close" aria-label="Close dialog">×</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button type="button" class="modal-tab active" data-modaltab="overview">Overview & Benefits</button>
+        <button type="button" class="modal-tab" data-modaltab="criteria">Eligibility Criteria</button>
+        <button type="button" class="modal-tab" data-modaltab="documents">Document Checklist</button>
+        <button type="button" class="modal-tab" data-modaltab="apply">How to Apply</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Tab 1: Overview -->
+        <div class="modal-pane active" id="pane-overview">
+          <div class="modal-benefit-banner">
+            <span class="benefit-label">TOTAL FINANCIAL BENEFIT</span>
+            <div class="benefit-highlight" id="modal-benefit">₹50,000 per annum</div>
+            <span class="benefit-dbt-badge">✓ Direct Benefit Transfer (DBT) to Aadhaar Bank Account</span>
+          </div>
+
+          <div class="modal-section">
+            <h4>Scheme Objective & Scope</h4>
+            <p id="modal-description">Description text</p>
+          </div>
+
+          <div class="modal-info-grid">
+            <div class="info-item">
+              <span class="info-lbl">Application Deadline:</span>
+              <strong id="modal-deadline">31st October 2026</strong>
+            </div>
+            <div class="info-item">
+              <span class="info-lbl">Primary Portal:</span>
+              <strong id="modal-portal">National Scholarship Portal</strong>
+            </div>
+            <div class="info-item">
+              <span class="info-lbl">Target Beneficiary:</span>
+              <strong id="modal-target">Undergraduate Students</strong>
+            </div>
+            <div class="info-item">
+              <span class="info-lbl">Family Income Ceiling:</span>
+              <strong id="modal-income-cap">Up to ₹4,50,000 / year</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Criteria -->
+        <div class="modal-pane" id="pane-criteria">
+          <div class="modal-section">
+            <h4>Mandatory Qualifying Conditions</h4>
+            <ul class="criteria-list" id="modal-criteria-list"></ul>
+          </div>
+          <div class="modal-section">
+            <h4>Notes & Special Exclusions</h4>
+            <p class="modal-note-box" id="modal-notes"></p>
+          </div>
+        </div>
+
+        <!-- Tab 3: Documents -->
+        <div class="modal-pane" id="pane-documents">
+          <div class="modal-section">
+            <h4>Required Document Checklist</h4>
+            <p>Ensure you have original digital scans of the following before commencing application:</p>
+            <div class="modal-doc-checks" id="modal-doc-checks"></div>
+          </div>
+        </div>
+
+        <!-- Tab 4: How to Apply -->
+        <div class="modal-pane" id="pane-apply">
+          <div class="modal-section">
+            <h4>Step-by-Step Official Application Process</h4>
+            <ol class="apply-steps-list" id="modal-apply-steps"></ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="modal-save-btn">☆ Save to Shortlist</button>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="modal-portal-link">
+          Open Official Application Portal ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print / Exportable Application Summary Container (Hidden until printed) -->
+  <div id="print-area" class="print-area hidden"></div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Global Quick Search Modal (Ctrl+K) -->
+  <div class="search-modal-backdrop hidden" id="search-modal" role="dialog" aria-modal="true" aria-label="Global Search">
+    <div class="search-modal-box">
+      <div class="search-modal-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="global-search-input" placeholder="Search by name, ministry, category, or state..." autocomplete="off">
+        <button type="button" class="search-modal-close" id="search-modal-close">Esc</button>
+      </div>
+      <div class="search-results-list" id="global-search-results">
+        <div class="search-hint">Type keywords like "AICTE", "Karnataka", "Pragati", "SC", "Engineering"...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-col-brand">
+        <div class="footer-brand">
+          <span class="brand-title">Scholar<span>Setu</span></span>
+          <span class="brand-sub">STUDENT SCHOLARSHIP & WELFARE DESK</span>
+        </div>
+        <p class="footer-about">
+          A transparent, accessible engineering prototype developed to bridge information asymmetry between Indian students and eligible government welfare schemes. Aligned with Digital India UX4G design standards.
+        </p>
+        <div class="footer-meta">
+          <span>RNSIT CSE (AI & ML) Mini Project</span>
+          <span class="bullet">•</span>
+          <span>Version 2.0.0 Production Release</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Official Portals</h5>
+        <ul>
+          <li><a href="https://scholarships.gov.in/" target="_blank" rel="noopener">National Scholarship Portal (NSP)</a></li>
+          <li><a href="https://ssp.postmatric.karnataka.gov.in/" target="_blank" rel="noopener">SSP Karnataka</a></li>
+          <li><a href="https://www.aicte-india.org/" target="_blank" rel="noopener">AICTE India</a></li>
+          <li><a href="https://www.myscheme.gov.in/" target="_blank" rel="noopener">myScheme (MeitY)</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Student Support</h5>
+        <ul>
+          <li><a href="#eligibility">Run Eligibility Checker</a></li>
+          <li><a href="#library">Browse 16 Schemes</a></li>
+          <li><a href="#readiness">Document Readiness</a></li>
+          <li><a href="#compare">Compare Schemes</a></li>
+          <li><a href="https://pfms.nic.in/" target="_blank" rel="noopener">PFMS Aadhaar Status ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <span>© 2026 ScholarSetu Desk. Built for transparent, accessible public welfare discovery.</span>
+      <span class="dbt-notice">All financial assistance is directly disbursed by Central & State Ministries via DBT PFMS.</span>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       ScholarSetu AI Chatbot Assistant (Saarthi)
+       ========================================================================= -->
+  <div id="ai-chat-container">
+    <button id="ai-chat-launcher" class="ai-chat-launcher" aria-label="Open AI Scholarship Assistant" title="Ask ScholarSetu AI">
+      <span class="ai-launcher-pulse"></span>
+      <span class="ai-launcher-icon">🤖</span>
+      <span class="ai-launcher-text">Ask AI Assistant</span>
+    </button>
+
+    <div id="ai-chat-window" class="ai-chat-window hidden" role="dialog" aria-labelledby="ai-chat-title">
+      <div class="ai-chat-header">
+        <div class="ai-chat-header-info">
+          <div class="ai-avatar">🤖</div>
+          <div>
+            <h4 id="ai-chat-title">ScholarSetu Saarthi</h4>
+            <span class="ai-status-indicator">
+              <span class="status-dot"></span> AI Scholarship Advisor · RAG Grounded
+            </span>
+          </div>
+        </div>
+        <button id="ai-chat-close" class="ai-chat-close-btn" aria-label="Close Chat">&times;</button>
+      </div>
+
+      <div class="ai-chat-body" id="ai-chat-messages">
+        <div class="ai-message ai-bubble">
+          <div class="ai-msg-header">🤖 Saarthi</div>
+          <div class="ai-msg-content">
+            Namaste! I am your <strong>ScholarSetu AI Assistant</strong>. Ask me anything about Indian government scholarships, eligibility rules, document requirements, or application deadlines.
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-chat-chips" id="ai-chat-chips">
+        <button class="ai-chip" data-query="Scholarships for female students">👧 For Girls</button>
+        <button class="ai-chip" data-query="Schemes for Engineering students">🎓 Engineering</button>
+        <button class="ai-chip" data-query="Essential documents checklist">📜 Documents</button>
+        <button class="ai-chip" data-query="Karnataka State SSP scholarship">📍 Karnataka SSP</button>
+      </div>
+
+      <form id="ai-chat-form" class="ai-chat-form">
+        <input type="text" id="ai-chat-input" placeholder="Ask about eligibility, schemes, income limits..." autocomplete="off" required>
+        <button type="submit" id="ai-chat-send" aria-label="Send Message">
+          <span>➤</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
