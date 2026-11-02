@@ -28,3 +28,4 @@
 | **T24** | Automated Snapshot Backup | Trigger `POST /api/backup` | Atomic snapshot saved to `scholarsetu_backup.db` | ✅ PASS |
 | **T25** | AI Assistant Chatbot (Saarthi) | `POST /api/chat` with Natural Language Query | Returns grounded scheme matches with official portal links | ✅ PASS |
 | **T26** | Enterprise SAST Security Audit | Semgrep 290 Security & Secret Rules | 0 Vulnerabilities, 0 Leaked Secrets, Enforced HTTP Security Headers | ✅ PASS |
+| **T27** | Secure Dual-Portal Authentication | Student & Nodal Officer Sign-In via `/api/auth/login` | PBKDF2 Hashing, Brute-Force Lockout (5 attempts), Immutable Audit Logging | ✅ PASS |
