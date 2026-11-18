@@ -3,3 +3,6 @@
 *.pyo
 .playwright-mcp/
 scholarsetu_backup.db
+*.db-shm
+*.db-wal
+~$*.pptx
