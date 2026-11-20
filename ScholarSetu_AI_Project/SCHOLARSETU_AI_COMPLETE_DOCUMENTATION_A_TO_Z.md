@@ -532,7 +532,12 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 | **huggingface** | 🟢 **ACTIVE / AUTHENTICATED**| Streamable HTTP (`huggingface.co/mcp`)| Verified authenticated tier as user `Jeevangowdahm` with user access token |
 | **higgsfield** | 🟢 **ACTIVE / AUTHENTICATED**| Python SDK + Stdio (`mcp-remote`)| ByteDance Seedance 2.5 SDK configured (`main.py`), credentials authenticated (0 balance) |
 | **powerpoint** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx office-powerpoint-mcp-server`)| 32 tools for slides, decks, shapes, presentation export |
+| **guardvibe** | 🟢 **ACTIVE / WORKING** | Stdio (`npx guardvibe@3.80.0`)| 682 web/app security rules, SAST, secret leak prevention, OWASP Top 10 |
+| **semgrep** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx semgrep-mcp`)| Static AST security rule enforcement & vulnerability detection |
 | **snyk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx snyk mcp`)| Container, code, dependency vulnerability scanning (v1.1309.0) |
+| **n8n** | 🟢 **ACTIVE / CONFIGURED** | Stdio (`npx n8n-mcp`)| End-to-end workflow automation, executions debugger, autofix |
+| **ponytail** | 🟢 **ACTIVE / INSTALLED** | Antigravity Plugin & Rules | Senior Dev minimal code mode, YAGNI, 6 skills (`ponytail-review`, etc.) |
+| **coderabbit** | 🟢 **INSTALLED (PLUGIN)**| Antigravity Plugin & CLI | AI code reviewer & autofix agent; authenticated via `coderabbit auth login` |
 | **supabase** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.supabase.com/mcp`)| Fully operational via Bearer Token (`sbp_d3165...`); 35 tools active |
 | **kaggle** | 🟡 **AUTHENTICATION CODE NEEDED** | Streamable HTTP (`kaggle.com/mcp`) | Kaggle MCP configured; requires OAuth auth code entered in UI box |
 | **context7** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @upstash/context7-mcp`)| Up-to-date documentation retrieval for Flask, Python, etc. |
