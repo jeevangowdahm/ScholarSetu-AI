@@ -492,6 +492,10 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 | **cloudflare-api** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.cloudflare.com/mcp`)| Cloudflare account inspection, DNS, Workers, security |
 | **cloudflare** (docs) | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`docs.mcp.cloudflare.com/mcp`)| Real-time Cloudflare product documentation queries |
 | **clerk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @clerk/clerk-mcp`)| User count, session tracking, auth management |
+| **google-aistudio** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx aistudio-mcp-server`) | Gemini API verified with 50 live multimodal models & free rate-limited tier |
+| **kling** | 🟢 **ACTIVE / CONFIGURED** | Streamable HTTP (`kling.ai/mcp`)| Hosted Kling AI video generation with free recurring starter credits |
+| **hailuo** | 🟡 **CONFIGURED (Group ID)** | Stdio (`@MiniMax-AI/MiniMax-MCP-JS`)| MiniMax Group ID registered (`2090273729966773004`); awaiting API key |
+| **meta-ai** | 🟢 **ACTIVE / CONFIGURED** | Stdio (`npx meta-ai-mcp`)| Meta AI web automation and free image/generation tools |
 | **postman-mcp-server** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx @postman/postman-mcp-server`) | Authenticated as Jeevan Gowda H M (User ID: 56051127, PMAK key verified) |
 | **exa** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx exa-mcp-server`) | Real-time neural web search & page fetching verified with live Exa key |
 | **huggingface** | 🟢 **ACTIVE / AUTHENTICATED**| Streamable HTTP (`huggingface.co/mcp`)| Verified authenticated tier as user `Jeevangowdahm` with user access token |
