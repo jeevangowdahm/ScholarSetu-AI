@@ -8,3 +8,6 @@ scholarsetu_backup.db
 ~$*.pptx
 .env*
 .env.local
+# GuardVibe (auto-added by guardvibe init)
+GEMINI.md
+.guardvibe/
