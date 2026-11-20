@@ -20,9 +20,8 @@
 9. [Complete REST API Specification](#9-complete-rest-api-specification)
 10. [Frontend Architecture & User Experience Design](#10-frontend-architecture--user-experience-design)
 11. [Testing, Verification & Quality Assurance Suite (T01–T27)](#11-testing-verification--quality-assurance-suite-t01t27)
-12. [Model Context Protocol (MCP) Ecosystem & Tool Permissions](#12-model-context-protocol-mcp-ecosystem--tool-permissions)
-13. [Sustainable Development Goals (SDGs) & Program Outcomes (POs)](#13-sustainable-development-goals-sdgs--program-outcomes-pos)
-14. [Deployment, Administration & Operations Manual](#14-deployment-administration--operations-manual)
+12. [Sustainable Development Goals (SDGs) & Program Outcomes (POs)](#12-sustainable-development-goals-sdgs--program-outcomes-pos)
+13. [Deployment, Administration & Operations Manual](#13-deployment-administration--operations-manual)
 
 ---
 
@@ -511,147 +510,28 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 
 ---
 
-## 12. Model Context Protocol (MCP) Ecosystem & Tool Permissions
+## 12. Sustainable Development Goals (SDGs) & Program Outcomes (POs)
 
-### 12.1 MCP Servers Status & Operational Health
-
-| MCP Server Identifier | Status | Transport | Capabilities / Health Status |
-|---|---|---|---|
-| **sqlite** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx mcp-server-sqlite`) | Full schema inspection, read/write SQL queries on `scholarsetu.db` |
-| **github** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @modelcontextprotocol/server-github`)| Repository search, commit tracking, PR management |
-| **filesystem** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @modelcontextprotocol/server-filesystem`)| Local workspace read, write, directory trees |
-| **memory** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @modelcontextprotocol/server-memory`)| Graph memory knowledge storage, entities & relations |
-| **cloudflare-api** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.cloudflare.com/mcp`)| Cloudflare account inspection, DNS, Workers, security |
-| **cloudflare** (docs) | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`docs.mcp.cloudflare.com/mcp`)| Real-time Cloudflare product documentation queries |
-| **clerk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @clerk/clerk-mcp`)| User count, session tracking, auth management |
-| **google-aistudio** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx aistudio-mcp-server`) | Gemini 3.5 Flash Lite live; powers website Saarthi Chatbot RAG pipeline |
-| **kling** | 🟢 **ACTIVE / CONFIGURED** | Streamable HTTP (`kling.ai/mcp`)| Hosted Kling AI video generation with free recurring starter credits |
-| **hailuo** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx minimax-mcp-js`) | Official MiniMax MCP with Group ID `2090273729966773004` & API key |
-| **postman-mcp-server** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx @postman/postman-mcp-server`) | Authenticated as Jeevan Gowda H M (User ID: 56051127, PMAK key verified) |
-| **exa** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx exa-mcp-server`) | Real-time neural web search & page fetching verified with live Exa key |
-| **huggingface** | 🟢 **ACTIVE / AUTHENTICATED**| Streamable HTTP (`huggingface.co/mcp`)| Verified authenticated tier as user `Jeevangowdahm` with user access token |
-| **higgsfield** | 🟢 **ACTIVE / AUTHENTICATED**| Python SDK + Stdio (`mcp-remote`)| ByteDance Seedance 2.5 SDK configured (`main.py`), credentials authenticated (0 balance) |
-| **powerpoint** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx office-powerpoint-mcp-server`)| 32 tools for slides, decks, shapes, presentation export |
-| **guardvibe** | 🟢 **ACTIVE / WORKING** | Stdio (`npx guardvibe@3.80.0`)| 682 web/app security rules, SAST, secret leak prevention, OWASP Top 10 |
-| **semgrep** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx semgrep-mcp`)| Static AST security rule enforcement & vulnerability detection |
-| **snyk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx snyk mcp`)| Container, code, dependency vulnerability scanning (v1.1309.0) |
-| **n8n** | 🟢 **ACTIVE / CONFIGURED** | Stdio (`npx n8n-mcp`)| End-to-end workflow automation, executions debugger, autofix |
-| **ponytail** | 🟢 **ACTIVE / INSTALLED** | Antigravity Plugin & Rules | Senior Dev minimal code mode, YAGNI, 6 skills (`ponytail-review`, etc.) |
-| **coderabbit** | 🟢 **INSTALLED (PLUGIN)**| Antigravity Plugin & CLI | AI code reviewer & autofix agent; authenticated via `coderabbit auth login` |
-| **supabase** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.supabase.com/mcp`)| Fully operational via Bearer Token (`sbp_d3165...`); 35 tools active |
-| **kaggle** | 🟡 **AUTHENTICATION CODE NEEDED** | Streamable HTTP (`kaggle.com/mcp`) | Kaggle MCP configured; requires OAuth auth code entered in UI box |
-| **context7** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @upstash/context7-mcp`)| Up-to-date documentation retrieval for Flask, Python, etc. |
-| **fetch** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx mcp-server-fetch`)| High-speed HTTP fetcher with markdown conversion |
-| **chrome-devtools-mcp**| 🟢 **ACTIVE / WORKING** | Stdio (`npx chrome-devtools-mcp`)| Browser automation, page listing, console log auditing |
-| **playwright** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @playwright/mcp`)| End-to-end headless browser interaction & UI testing |
-| **sequential-thinking**| 🟢 **ACTIVE / WORKING** | Stdio (`npx @modelcontextprotocol/server-sequential-thinking`)| Multi-step reasoning and algorithmic problem solving |
-| **ollama** | ⚪ **STANDBY (Daemon)** | Local Stdio (`ollama-mcp`)| Local LLM inference (requires `ollama serve` on port 11434) |
-| **StitchMCP** | ⚪ **AUTH REQUIRED** | Stdio (`mcp-remote`)| Google Stitch UI wireframe generator (needs dynamic client OAuth)|
-
-### 12.2 MCP Diagnostics & Error Resolutions (Screenshot Analysis)
-
-1. **Hailuo AI / MiniMax MCP (`npm error 404 - @MiniMax-AI/MiniMax-MCP-JS`)**:
-   - *Root Cause*: npm strictly disallows uppercase letters in package names (`1. name can no longer contain capital letters`).
-   - *Resolution*: Replaced with the official, lowercase npm package `minimax-mcp-js` (v0.0.18), configured with `MINIMAX_GROUP_ID: 2090273729966773004` and `MINIMAX_API_KEY`.
-2. **Meta AI MCP (`npm error ENOVERSIONS - meta-ai-mcp`)**:
-   - *Root Cause*: No public npm package exists under `meta-ai-mcp`.
-   - *Resolution*: Cleanly removed from `mcp_config.json` to eliminate startup errors.
-3. **Supabase OAuth Browser Error (`{"message":"Unrecognized client_id"}`)**:
-   - *Root Cause*: Clicking the UI `[Authenticate]` button initiates an OAuth redirect where Antigravity supplies a default client ID that is not pre-registered in Supabase's third-party OAuth provider list.
-   - *Status*: Supabase is **already authenticated and 100% operational**! In `mcp_config.json`, the Personal Access Token (`sbp_d3165e6edfac...`) is injected into the request header (`Authorization: Bearer ...`). All 35 tools function directly without needing the browser OAuth button.
-4. **Kaggle OAuth Error (`https://antigravity.google/oauth-callback must be a localhost URL`)**:
-   - *Root Cause*: Kaggle's OAuth server restricts redirect URIs to localhost or `https://www.kaggle.com/account/api/oauth/token`. Kaggle rejected Antigravity's cloud callback URI.
-   - *Resolution*: User can authorize by generating an authorization token directly on Kaggle and entering the code into the UI box: `[Enter authorization code... Submit]`, or placing `kaggle.json` into `~/.kaggle/`.
-5. **Vercel MCP (`Error: Unauthorized`)**:
-   - *Root Cause*: `https://mcp.vercel.com` was configured without an API token in the headers.
-   - *Resolution*: Removed from `mcp_config.json` to keep all MCPs green. Can be re-enabled whenever a Vercel Personal Access Token is supplied.
-
-### 12.3 Higgsfield API & ByteDance Seedance 2.5 Setup
-* **SDK Installed**: `higgsfield-client` (v0.2.0) & `python-dotenv`
-* **Credentials Storage**: Saved to `.env.local` (`HF_KEY=key_id:key_secret`) and excluded from Git via `.gitignore`
-* **Example Script**: `main.py` using `higgsfield_client.subscribe("bytedance/seedance-2.5/text-to-video", arguments={...})` with prompt *"A cinematic scene at sunset"*, duration 5s, resolution 720p, aspect ratio 16:9.
-* **Execution Verification**: Script executed against live Higgsfield API. Credentials authenticated successfully. Execution was stopped with blocker: `not_enough_credits` on user balance. Video generation will run immediately once generation credits are topped up.
-
-### 12.4 Comprehensive List of MCP Tools and Their Permissions
-
-The following matrix documents the available MCP tools and their permission scopes:
-
-```
-Permission Scopes Defined:
-- [FS-R]: Filesystem Read (Read local files & directories)
-- [FS-W]: Filesystem Write (Create, edit, delete files)
-- [NET]: Network Outbound (Make external HTTP/S requests)
-- [DB-R]: Database Read (Execute SELECT queries)
-- [DB-W]: Database Write (Execute INSERT, UPDATE, DELETE queries)
-- [AUTH]: Credential-Gated (Requires valid API key or Bearer token)
-- [BROWSER]: Browser Sandbox (Launch headless Chromium, take screenshots, click)
-```
-
-| Server | Tool Name | Permission Scope | Description |
-|---|---|---|---|
-| **sqlite** | `list_tables` | `[DB-R]` | Lists all tables in the SQLite database |
-| **sqlite** | `describe_table` | `[DB-R]` | Retrieves column names, types, and primary keys for a table |
-| **sqlite** | `read_query` | `[DB-R]` | Executes a read-only SQL SELECT query |
-| **sqlite** | `write_query` | `[DB-W]` | Executes an INSERT, UPDATE, or DELETE SQL statement |
-| **sqlite** | `create_table` | `[DB-W]` | Executes a DDL CREATE TABLE statement |
-| **filesystem** | `list_directory` | `[FS-R]` | Lists directory contents within configured allowed directories |
-| **filesystem** | `read_file` | `[FS-R]` | Reads UTF-8 contents of a specified file |
-| **filesystem** | `write_file` | `[FS-W]` | Writes or creates a new file on disk |
-| **filesystem** | `edit_file` | `[FS-W]` | Performs surgical string replacement edits in a file |
-| **github** | `search_repositories` | `[NET, AUTH]` | Queries GitHub repositories using search syntax |
-| **github** | `get_file_contents` | `[NET, AUTH]` | Fetches contents of a file from a remote GitHub repository |
-| **github** | `create_or_update_file` | `[NET, AUTH, FS-W]` | Commits changes or creates a file on GitHub remote branch |
-| **github** | `create_pull_request` | `[NET, AUTH]` | Opens a pull request on a GitHub repository |
-| **memory** | `read_graph` | `[FS-R]` | Reads all entities, relations, and observations in knowledge graph |
-| **memory** | `create_entities` | `[FS-W]` | Stores new entities and observations in semantic memory |
-| **memory** | `create_relations` | `[FS-W]` | Links two entities in semantic memory |
-| **cloudflare-api**| `whoami` | `[NET, AUTH]` | Validates active Cloudflare account token and user identity |
-| **cloudflare-api**| `execute` | `[NET, AUTH]` | Executes Cloudflare API calls across 2,500+ endpoints |
-| **cloudflare** | `search_cloudflare_documentation` | `[NET]` | Queries official Cloudflare documentation chunks |
-| **clerk** | `GetUsersCount` | `[NET, AUTH]` | Queries registered user count from Clerk dashboard |
-| **clerk** | `GetUserList` | `[NET, AUTH]` | Lists user records and metadata from Clerk |
-| **powerpoint** | `get_server_info` | `[FS-R]` | Returns PowerPoint MCP server version and tool capabilities |
-| **powerpoint** | `create_presentation` | `[FS-W]` | Creates a new `.pptx` presentation deck |
-| **powerpoint** | `add_slide` | `[FS-W]` | Adds a formatted slide with layout and title |
-| **snyk** | `snyk_version` | `[FS-R]` | Returns active Snyk CLI/MCP version |
-| **snyk** | `snyk_code_scan` | `[FS-R, NET, AUTH]` | Scans source code for SAST vulnerabilities |
-| **supabase** | `list_organizations` | `[NET, AUTH]` | Retrieves connected Supabase organization IDs |
-| **supabase** | `execute_sql` | `[NET, AUTH, DB-W]`| Executes SQL queries on remote Supabase Postgres instance |
-| **fetch** | `fetch` | `[NET]` | Fetches raw HTML or converts a URL's content to markdown |
-| **context7** | `resolve-library-id` | `[NET]` | Resolves package name to Context7-compatible documentation ID |
-| **context7** | `query-docs` | `[NET]` | Fetches verified code snippets and documentation for libraries |
-| **chrome-devtools-mcp** | `list_pages` | `[BROWSER]` | Lists active browser pages open in Chrome |
-| **chrome-devtools-mcp** | `take_screenshot` | `[BROWSER, FS-W]` | Captures visual screenshot of the current browser page |
-| **playwright** | `browser_navigate` | `[BROWSER, NET]` | Navigates headless browser to a specific URL |
-| **playwright** | `browser_click` | `[BROWSER]` | Performs simulated mouse clicks on web elements |
-| **sequential-thinking** | `sequentialthinking` | None | Performs step-by-step reasoning without external side effects |
-| **higgsfield** | `text_to_image` | `[NET, AUTH]` | Generates cinematic images via Soul model |
-| **higgsfield** | `image_to_video` | `[NET, AUTH]` | Converts static images into motion video with camera presets |
-
----
-
-## 13. Sustainable Development Goals (SDGs) & Program Outcomes (POs)
-
-### 13.1 United Nations Sustainable Development Goals (SDGs)
+### 12.1 United Nations Sustainable Development Goals (SDGs)
 * **SDG 4 (Quality Education — Target 4.3 & 4.b)**: Equal access to technical, vocational, and tertiary education by eliminating financial barriers and ensuring scholarships reach underprivileged scholars.
 * **SDG 8 (Decent Work & Economic Growth — Target 8.6)**: Reduces youth not in employment, education, or training (NEET) by funding higher education pathways.
 * **SDG 10 (Reduced Inequalities — Target 10.2 & 10.3)**: Empowers SC, ST, OBC, minority communities, and persons with disabilities (PwD) with targeted financial aid.
 * **SDG 16 (Peace, Justice and Strong Institutions — Target 16.6)**: Fosters transparent, effective, and accountable public institutions through explainable eligibility decisions and tamper-proof audit trails.
 
-### 13.2 NBA / NAAC Program Outcomes (PO) Alignment
+### 12.2 NBA / NAAC Program Outcomes (PO) Alignment
 * **PO1 (Engineering Knowledge)**: Mathematical and algorithmic modeling of multi-dimensional constraint satisfaction.
 * **PO2 (Problem Analysis)**: Analysis of welfare leakage, information asymmetry, and systemic drop-offs in digital governance.
 * **PO3 (Design/Development of Solutions)**: End-to-end design of a secure, responsive, full-stack decision engine.
 * **PO4 (Conduct Investigations of Complex Problems)**: Systematic stress-testing, concurrency benchmarking, and comparative matrix evaluation.
-* **PO5 (Modern Tool Usage)**: Integration with Model Context Protocol (MCP), SQLite WAL engine, and Semgrep security linters.
+* **PO5 (Modern Tool Usage)**: Integration with Google Gemini AI RAG engine, SQLite WAL concurrency system, and GuardVibe/Semgrep security scanners.
 * **PO8 (Ethics)**: Strict data privacy, zero-tracking of Aadhaar numbers, and adherence to equal opportunity welfare principles.
 * **PO10 (Communication)**: Accessible, multi-device, transparent user experience tailored for first-generation learners.
 
 ---
 
-## 14. Deployment, Administration & Operations Manual
+## 13. Deployment, Administration & Operations Manual
 
-### 14.1 Local Development Setup
+### 13.1 Local Development Setup
 
 ```bash
 # 1. Clone repository
@@ -673,7 +553,7 @@ python app.py
 ```
 * **Default URL**: `http://127.0.0.1:5000`
 
-### 14.2 Production WSGI Deployment (Waitress for Windows / Gunicorn for Linux)
+### 13.2 Production WSGI Deployment (Waitress for Windows / Gunicorn for Linux)
 
 #### On Windows (using Waitress):
 ```bash
@@ -687,7 +567,7 @@ pip install gunicorn
 gunicorn -w 4 -b 0.0.0.0:5000 --access-logfile - --error-logfile - app:app
 ```
 
-### 14.3 Automated Backup Administration
+### 13.3 Automated Backup Administration
 ScholarSetu AI includes built-in snapshot backups using SQLite's online backup API.
 To trigger an automated backup via cron or task scheduler:
 ```bash
