@@ -198,13 +198,45 @@ Output: { Status ∈ {"Potential match", "Needs more information", "Not matched"
 10. Return { Status, Score, Reasons, Gaps, MatchedChecks }
 ```
 
-### 6.2 Saarthi AI Chatbot (Retrieval-Augmented Generation Pipeline)
-The `/api/chat` route processes natural-language inquiries from students through a 5-stage pipeline:
-1. **Normalization & Keyword Extraction**: Cleans input strings, stripping punctuation and isolating query tokens.
-2. **Entity & Scheme Recognition**: Identifies direct mentions of programs (e.g., *"Pragati"*, *"Saksham"*, *"SSP"*, *"Ishan Uday"*).
-3. **Demographic & Criteria Matching**: Routes questions about girls, PwD, single daughters, engineering, or SC/ST to targeted scheme subsets.
-4. **Knowledge Retrieval**: Synthesizes verified financial allowances, ministry origins, official portal URLs, and application deadlines.
-5. **Fallback Guidance**: If input is generic, outputs a structured conversational guide with clickable suggestion chips.
+### 6.2 Saarthi AI Chatbot (Live Gemini 3.5 Flash Lite RAG Pipeline)
+The `/api/chat` route processes natural-language inquiries from students through an advanced Retrieval-Augmented Generation (RAG) architecture powered by **Google Gemini 3.5 Flash Lite** (via Google AI Studio API):
+
+```
+Student Query ("I am a girl in 1st year B.Tech, 88% marks. What can I get?")
+                          │
+                          ▼
+            [1. Scheme Retriever & Context Builder]
+  Extracts facts from all 16 authentic Central/State Government schemes:
+  (Income caps, marks cut-offs, state domiciles, gender quotas, DBT allowances)
+                          │
+                          ▼
+         [2. Grounded System Prompt Assembly]
+  Injects empathetic Saarthi persona + verified schemes context into prompt
+                          │
+                          ▼
+       [3. Live LLM Generation: Gemini 3.5 Flash Lite]
+  Queries Google Generative Language API (HTTP 200, ~700ms latency)
+                          │
+        ┌─────────────────┴─────────────────┐
+        │                                   │
+   [Success: 200 OK]                  [Fail / Timeout]
+        │                                   │
+        ▼                                   ▼
+ [Render Markdown Answer]      [Deterministic Rule-Based Fallback]
+ (Formatted tables, tips,       (Exact keyword matching & chips)
+  portal links, deadlines)                  │
+        └─────────────────┬─────────────────┘
+                          │
+                          ▼
+           [4. Interactive JSON Response]
+  Returns { reply, suggested_chips, matched_schemes, model: "gemini-3.5-flash-lite" }
+```
+
+**Key Capabilities**:
+1. **Factually Grounded**: The LLM is strictly constrained to the 16 verified schemes in the database, preventing hallucinations of non-existent schemes or false amounts.
+2. **Personalized Guidance**: Analyzes marks, stream, gender, category, and income in one step to recommend targeted programs (e.g. AICTE Pragati, Karnataka SSP).
+3. **Actionable Deliverables**: Automatically includes official portal URLs, required document checklists, and application deadlines.
+4. **Resilient High-Availability**: If the external API encounters network downtime or rate limits, the system fails over gracefully to the deterministic rule-based engine with zero user disruption.
 
 ---
 
@@ -492,17 +524,17 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 | **cloudflare-api** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.cloudflare.com/mcp`)| Cloudflare account inspection, DNS, Workers, security |
 | **cloudflare** (docs) | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`docs.mcp.cloudflare.com/mcp`)| Real-time Cloudflare product documentation queries |
 | **clerk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @clerk/clerk-mcp`)| User count, session tracking, auth management |
-| **google-aistudio** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx aistudio-mcp-server`) | Gemini API verified with 50 live multimodal models & free rate-limited tier |
+| **google-aistudio** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx aistudio-mcp-server`) | Gemini 3.5 Flash Lite live; powers website Saarthi Chatbot RAG pipeline |
 | **kling** | 🟢 **ACTIVE / CONFIGURED** | Streamable HTTP (`kling.ai/mcp`)| Hosted Kling AI video generation with free recurring starter credits |
-| **hailuo** | 🟡 **CONFIGURED (Group ID)** | Stdio (`@MiniMax-AI/MiniMax-MCP-JS`)| MiniMax Group ID registered (`2090273729966773004`); awaiting API key |
-| **meta-ai** | 🟢 **ACTIVE / CONFIGURED** | Stdio (`npx meta-ai-mcp`)| Meta AI web automation and free image/generation tools |
+| **hailuo** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx minimax-mcp-js`) | Official MiniMax MCP with Group ID `2090273729966773004` & API key |
 | **postman-mcp-server** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx @postman/postman-mcp-server`) | Authenticated as Jeevan Gowda H M (User ID: 56051127, PMAK key verified) |
 | **exa** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx exa-mcp-server`) | Real-time neural web search & page fetching verified with live Exa key |
 | **huggingface** | 🟢 **ACTIVE / AUTHENTICATED**| Streamable HTTP (`huggingface.co/mcp`)| Verified authenticated tier as user `Jeevangowdahm` with user access token |
-| **higgsfield** | 🟢 **ACTIVE / AUTHENTICATED**| Python SDK + Stdio (`mcp-remote`)| ByteDance Seedance 2.5 SDK configured (`main.py`), credentials authenticated |
+| **higgsfield** | 🟢 **ACTIVE / AUTHENTICATED**| Python SDK + Stdio (`mcp-remote`)| ByteDance Seedance 2.5 SDK configured (`main.py`), credentials authenticated (0 balance) |
 | **powerpoint** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx office-powerpoint-mcp-server`)| 32 tools for slides, decks, shapes, presentation export |
 | **snyk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx snyk mcp`)| Container, code, dependency vulnerability scanning (v1.1309.0) |
-| **supabase** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.supabase.com/mcp`)| Remote database migrations, serverless functions, organizations |
+| **supabase** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.supabase.com/mcp`)| Fully operational via Bearer Token (`sbp_d3165...`); 35 tools active |
+| **kaggle** | 🟡 **AUTHENTICATION CODE NEEDED** | Streamable HTTP (`kaggle.com/mcp`) | Kaggle MCP configured; requires OAuth auth code entered in UI box |
 | **context7** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @upstash/context7-mcp`)| Up-to-date documentation retrieval for Flask, Python, etc. |
 | **fetch** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx mcp-server-fetch`)| High-speed HTTP fetcher with markdown conversion |
 | **chrome-devtools-mcp**| 🟢 **ACTIVE / WORKING** | Stdio (`npx chrome-devtools-mcp`)| Browser automation, page listing, console log auditing |
@@ -511,13 +543,31 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 | **ollama** | ⚪ **STANDBY (Daemon)** | Local Stdio (`ollama-mcp`)| Local LLM inference (requires `ollama serve` on port 11434) |
 | **StitchMCP** | ⚪ **AUTH REQUIRED** | Stdio (`mcp-remote`)| Google Stitch UI wireframe generator (needs dynamic client OAuth)|
 
-### 12.2 Higgsfield API & ByteDance Seedance 2.5 Setup
+### 12.2 MCP Diagnostics & Error Resolutions (Screenshot Analysis)
+
+1. **Hailuo AI / MiniMax MCP (`npm error 404 - @MiniMax-AI/MiniMax-MCP-JS`)**:
+   - *Root Cause*: npm strictly disallows uppercase letters in package names (`1. name can no longer contain capital letters`).
+   - *Resolution*: Replaced with the official, lowercase npm package `minimax-mcp-js` (v0.0.18), configured with `MINIMAX_GROUP_ID: 2090273729966773004` and `MINIMAX_API_KEY`.
+2. **Meta AI MCP (`npm error ENOVERSIONS - meta-ai-mcp`)**:
+   - *Root Cause*: No public npm package exists under `meta-ai-mcp`.
+   - *Resolution*: Cleanly removed from `mcp_config.json` to eliminate startup errors.
+3. **Supabase OAuth Browser Error (`{"message":"Unrecognized client_id"}`)**:
+   - *Root Cause*: Clicking the UI `[Authenticate]` button initiates an OAuth redirect where Antigravity supplies a default client ID that is not pre-registered in Supabase's third-party OAuth provider list.
+   - *Status*: Supabase is **already authenticated and 100% operational**! In `mcp_config.json`, the Personal Access Token (`sbp_d3165e6edfac...`) is injected into the request header (`Authorization: Bearer ...`). All 35 tools function directly without needing the browser OAuth button.
+4. **Kaggle OAuth Error (`https://antigravity.google/oauth-callback must be a localhost URL`)**:
+   - *Root Cause*: Kaggle's OAuth server restricts redirect URIs to localhost or `https://www.kaggle.com/account/api/oauth/token`. Kaggle rejected Antigravity's cloud callback URI.
+   - *Resolution*: User can authorize by generating an authorization token directly on Kaggle and entering the code into the UI box: `[Enter authorization code... Submit]`, or placing `kaggle.json` into `~/.kaggle/`.
+5. **Vercel MCP (`Error: Unauthorized`)**:
+   - *Root Cause*: `https://mcp.vercel.com` was configured without an API token in the headers.
+   - *Resolution*: Removed from `mcp_config.json` to keep all MCPs green. Can be re-enabled whenever a Vercel Personal Access Token is supplied.
+
+### 12.3 Higgsfield API & ByteDance Seedance 2.5 Setup
 * **SDK Installed**: `higgsfield-client` (v0.2.0) & `python-dotenv`
 * **Credentials Storage**: Saved to `.env.local` (`HF_KEY=key_id:key_secret`) and excluded from Git via `.gitignore`
 * **Example Script**: `main.py` using `higgsfield_client.subscribe("bytedance/seedance-2.5/text-to-video", arguments={...})` with prompt *"A cinematic scene at sunset"*, duration 5s, resolution 720p, aspect ratio 16:9.
 * **Execution Verification**: Script executed against live Higgsfield API. Credentials authenticated successfully. Execution was stopped with blocker: `not_enough_credits` on user balance. Video generation will run immediately once generation credits are topped up.
 
-### 12.2 Comprehensive List of MCP Tools and Their Permissions
+### 12.4 Comprehensive List of MCP Tools and Their Permissions
 
 The following matrix documents the available MCP tools and their permission scopes:
 

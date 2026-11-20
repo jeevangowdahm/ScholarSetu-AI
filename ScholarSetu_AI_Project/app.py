@@ -1,10 +1,16 @@
 from flask import Flask, render_template, request, jsonify
-import sqlite3, json, os, secrets
+import sqlite3, json, os, secrets, requests
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(APP_DIR, "scholarsetu.db")
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(APP_DIR, ".env.local"))
+except Exception:
+    pass
 app = Flask(__name__)
 app.config["JSON_SORT_KEYS"] = False
 
@@ -1078,10 +1084,73 @@ def api_saved():
         out.append(d)
     return jsonify(out)
 
+def call_gemini_saarthi(user_msg, all_schemes):
+    """Queries Google Gemini 3.5 Flash Lite using Google AI Studio API.
+    Grounds the response in the 16 verified Indian Government scholarship schemes."""
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return None
+
+    # Compile structured context of authentic schemes for RAG grounding
+    schemes_ctx = []
+    for s in all_schemes:
+        schemes_ctx.append(
+            f"- Scheme: {s['name']} (Code: {s['code']})\n"
+            f"  Assistance: {s['benefit_amount']}\n"
+            f"  Ministry: {s['ministry']}\n"
+            f"  Target: Gender={s['gender']}, Level={s.get('level', 'UG/PG')}, MinMarks>={s['min_marks']}%, MaxIncome<=Rs.{s['max_income']:,}/yr\n"
+            f"  Categories: {', '.join(s.get('categories', []))}\n"
+            f"  Streams: {', '.join(s.get('streams', []))}\n"
+            f"  States: {', '.join(s.get('states', []))}\n"
+            f"  Special Conditions: {s.get('special_conditions', {})}\n"
+            f"  Deadline: {s['deadline']}\n"
+            f"  Official Portal: {s['official_url']}\n"
+        )
+    context_str = "\n".join(schemes_ctx)
+
+    system_instruction = (
+        "You are ScholarSetu Saarthi (सारथी), an empathetic, knowledgeable, and highly reliable AI Scholarship Guidance Counselor for Indian students. "
+        "You are developed for the Ministry of Education & National Scholarship Portal (NSP) ecosystem.\n\n"
+        "YOUR GOAL: Answer student queries about scholarships, eligibility criteria, application deadlines, required documents, and official portals with 100% factual accuracy based strictly on the verified schemes below.\n\n"
+        f"VERIFIED SCHEMES DATABASE:\n{context_str}\n\n"
+        "INSTRUCTIONS:\n"
+        "1. Ground all recommendations, amounts, deadlines, and portals on the schemes above.\n"
+        "2. When relevant, cite the exact scheme name, benefit amount, and portal link.\n"
+        "3. Structure your response with clean Markdown: use emojis, bold text, bullet points, and headers.\n"
+        "4. Include practical tips for DBT (Direct Benefit Transfer), Aadhaar seeding with NPCI, and Tahsildar income certificates when relevant.\n"
+        "5. Always be polite, encouraging, and inspiring to students."
+    )
+
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent"
+    headers = {"Content-Type": "application/json"}
+    payload = {
+        "system_instruction": {"parts": [{"text": system_instruction}]},
+        "contents": [{"parts": [{"text": user_msg}]}],
+        "generationConfig": {
+            "temperature": 0.4,
+            "topP": 0.95,
+            "maxOutputTokens": 1024
+        }
+    }
+
+    try:
+        resp = requests.post(f"{url}?key={api_key}", headers=headers, json=payload, timeout=8)
+        if resp.status_code == 200:
+            data = resp.json()
+            candidates = data.get("candidates", [])
+            if candidates:
+                text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text")
+                if text and len(text.strip()) > 10:
+                    return text.strip()
+    except Exception:
+        pass
+
+    return None
+
 @app.post("/api/chat")
 def api_chat():
     """AI Scholarship Assistant (Saarthi) & RAG Pipeline.
-    Evaluates queries against all 16 authentic schemes with grounded factual responses."""
+    Evaluates queries with Google Gemini 3.5 Flash Lite live model and deterministic fallback."""
     data = request.get_json(silent=True) or {}
     user_msg = str(data.get("message", "")).strip()
     if not user_msg:
@@ -1118,6 +1187,18 @@ def api_chat():
             matched = [s for s in all_schemes if "CSIS" in s["code"]]
         elif any(w in q for w in ("single girl", "only child")):
             matched = [s for s in all_schemes if s["special_conditions"].get("single_girl_child")]
+
+    # 3. Try Live AI Generation with Google Gemini 3.5 Flash Lite
+    ai_reply = call_gemini_saarthi(user_msg, all_schemes)
+    if ai_reply:
+        top_matches = matched[:3] if matched else []
+        return jsonify({
+            "reply": ai_reply,
+            "suggested_chips": ["Am I eligible for Pragati?", "Karnataka SSP Scheme", "Required documents checklist", "High Value Scholarships"],
+            "matched_schemes": [{"id": s["id"], "name": s["name"], "benefit": s["benefit_amount"], "official_url": s["official_url"]} for s in top_matches],
+            "model": "gemini-3.5-flash-lite",
+            "provider": "Google AI Studio"
+        })
 
     # 3. Document or General Process Questions
     if any(w in q for w in ("document", "certificate", "aadhaar", "income cert", "paperwork")):
