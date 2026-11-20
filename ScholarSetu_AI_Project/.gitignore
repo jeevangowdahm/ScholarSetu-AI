@@ -4,3 +4,5 @@ __pycache__/
 venv/
 scholarsetu.db
 .env
+.env*
+.env.local

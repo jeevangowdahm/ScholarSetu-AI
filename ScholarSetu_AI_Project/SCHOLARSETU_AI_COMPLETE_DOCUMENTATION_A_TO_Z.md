@@ -492,6 +492,10 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 | **cloudflare-api** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.cloudflare.com/mcp`)| Cloudflare account inspection, DNS, Workers, security |
 | **cloudflare** (docs) | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`docs.mcp.cloudflare.com/mcp`)| Real-time Cloudflare product documentation queries |
 | **clerk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @clerk/clerk-mcp`)| User count, session tracking, auth management |
+| **postman-mcp-server** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx @postman/postman-mcp-server`) | Authenticated as Jeevan Gowda H M (User ID: 56051127, PMAK key verified) |
+| **exa** | 🟢 **ACTIVE / AUTHENTICATED**| Stdio (`npx exa-mcp-server`) | Real-time neural web search & page fetching verified with live Exa key |
+| **huggingface** | 🟢 **ACTIVE / AUTHENTICATED**| Streamable HTTP (`huggingface.co/mcp`)| Verified authenticated tier as user `Jeevangowdahm` with user access token |
+| **higgsfield** | 🟢 **ACTIVE / AUTHENTICATED**| Python SDK + Stdio (`mcp-remote`)| ByteDance Seedance 2.5 SDK configured (`main.py`), credentials authenticated |
 | **powerpoint** | 🟢 **ACTIVE / WORKING** | Stdio (`uvx office-powerpoint-mcp-server`)| 32 tools for slides, decks, shapes, presentation export |
 | **snyk** | 🟢 **ACTIVE / WORKING** | Stdio (`npx snyk mcp`)| Container, code, dependency vulnerability scanning (v1.1309.0) |
 | **supabase** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`mcp.supabase.com/mcp`)| Remote database migrations, serverless functions, organizations |
@@ -500,10 +504,14 @@ Every feature in ScholarSetu AI has been empirically verified across 27 test cas
 | **chrome-devtools-mcp**| 🟢 **ACTIVE / WORKING** | Stdio (`npx chrome-devtools-mcp`)| Browser automation, page listing, console log auditing |
 | **playwright** | 🟢 **ACTIVE / WORKING** | Stdio (`npx @playwright/mcp`)| End-to-end headless browser interaction & UI testing |
 | **sequential-thinking**| 🟢 **ACTIVE / WORKING** | Stdio (`npx @modelcontextprotocol/server-sequential-thinking`)| Multi-step reasoning and algorithmic problem solving |
-| **huggingface** | 🟢 **ACTIVE / WORKING** | Streamable HTTP (`huggingface.co/mcp`)| Model search, dataset discovery, Hugging Face Hub tools |
-| **higgsfield** | 🟡 **CONFIGURED** | Stdio / Remote (`npx mcp-remote`)| Cinematic AI image-to-video, text-to-image (Soul model) |
-| **ollama** | ⚪ **OFFLINE (Daemon)** | Local Stdio (`ollama-mcp`)| Local LLM inference (requires `ollama serve` on port 11434) |
+| **ollama** | ⚪ **STANDBY (Daemon)** | Local Stdio (`ollama-mcp`)| Local LLM inference (requires `ollama serve` on port 11434) |
 | **StitchMCP** | ⚪ **AUTH REQUIRED** | Stdio (`mcp-remote`)| Google Stitch UI wireframe generator (needs dynamic client OAuth)|
+
+### 12.2 Higgsfield API & ByteDance Seedance 2.5 Setup
+* **SDK Installed**: `higgsfield-client` (v0.2.0) & `python-dotenv`
+* **Credentials Storage**: Saved to `.env.local` (`HF_KEY=key_id:key_secret`) and excluded from Git via `.gitignore`
+* **Example Script**: `main.py` using `higgsfield_client.subscribe("bytedance/seedance-2.5/text-to-video", arguments={...})` with prompt *"A cinematic scene at sunset"*, duration 5s, resolution 720p, aspect ratio 16:9.
+* **Execution Verification**: Script executed against live Higgsfield API. Credentials authenticated successfully. Execution was stopped with blocker: `not_enough_credits` on user balance. Video generation will run immediately once generation credits are topped up.
 
 ### 12.2 Comprehensive List of MCP Tools and Their Permissions
 

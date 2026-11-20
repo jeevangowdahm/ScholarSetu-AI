@@ -6,3 +6,5 @@ scholarsetu_backup.db
 *.db-shm
 *.db-wal
 ~$*.pptx
+.env*
+.env.local
